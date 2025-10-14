@@ -17,6 +17,7 @@ library(here)
 library(ggplot2)
 
 library(dplyr)
+library(tidyr)
 ```
 
 
@@ -53,3 +54,21 @@ ggplot(EuStockMarkets,aes(y=CAC,x=date))+
   geom_line(color="steelblue")+
   geom_line(mapping = aes(y=DAX),color="salmon")
 ```
+
+### Tidyr Solution
+
+```{r}
+EuStockMarkets |>
+  pivot_longer(!date, names_to="index") |>
+  slice_head(n=10) |>
+  knitr::kable()
+
+```
+
+```{r}
+EuStockMarkets |>
+  pivot_longer(!date, names_to="index") |>
+  ggplot(aes(x=date, y=value, colour=index))+
+  geom_line()
+```
+
