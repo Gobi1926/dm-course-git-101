@@ -46,3 +46,10 @@ ggplot(EuStockMarkets,aes(y=CAC,x=date))+
   geom_line()
 ```
 
+
+
+```{r}
+ggplot(EuStockMarkets,aes(y=CAC,x=date))+
+  geom_line(color="steelblue")+
+  geom_line(mapping = aes(y=DAX),color="salmon")
+```
