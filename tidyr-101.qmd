@@ -72,6 +72,7 @@ EuStockMarkets |>
   geom_line()
 ```
 
+### More pivoting
 
 ```{r}
 EuStockMarkets |>
@@ -96,5 +97,45 @@ EuStockMarkets |>
   pivot_longer(!date)|>summarise(avg_stock=mean(value),.by = date) |>
   slice_head(n=10) |>
   knitr::kable()
+```
+
+```{r}
+EuStockMarkets|>
+  select(!FTSE)|>
+  rowwise() |>
+  summarise(date, avg_stock=mean(DAX,SMI,CAC))
+```
+
+
+### Reverse op pivot to a wider format
+
+
+
+```{r}
+Eulong <- EuStockMarkets |> pivot_longer(!date)
+```
+
+```{r}
+Eulong|>pivot_wider()
+```
+
+
+```{r}
+Eulong|>pivot_wider(id_cols = date) |>
+  slice_head(n=10)|>
+  knitr::kable()
+```
+
+
+
+```{r}
+data("diamonds")
+dgroup <- diamonds|>summarise(count=n(),median_price=median(price),.by=c(cut,color))
+```
+
+```{r}
+dgroup|>
+  select(!count)|>
+  pivot_wider(id_cols = cut, names_from=color,values_from = median_price)
 ```
 
