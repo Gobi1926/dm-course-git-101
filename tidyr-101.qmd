@@ -177,12 +177,57 @@ planet_star <- inner_join(planets,stars,by=join_by(Star_code))
 
 planet_star|>
   mutate(mass_ratio=`Mass (Earth)`/sun_to_earth) |>
-  slice_max(mass_ratio) 
-
-
-
+  slice_max(mass_ratio)|>
+  select(PLANET_KEY,Planet,mass_ratio)
 
 
 
 ```
+
+```{r}
+planets_without_s <- anti_join(planets,stars,by=join_by(Star_code))
+stars_without_p <- anti_join(stars,planets,by=join_by(Star_code))
+```
+
+```{r}
+stars_with_p <- semi_join(stars,planets,by=join_by(Star_code))
+```
+
+```{r}
+all_planets <- left_join(planets,stars,by=join_by(Star_code))
+all_stars <- right_join(planets,stars,by=join_by(Star_code))
+all_all <- full_join(planets,stars,by = join_by(Star_code))
+```
+
+## Star oriented analysis
+
+```{r}
+planet_star |>
+  summarise(n=n(), .by=Star_code)|>
+  ggplot(aes(x=n))+
+    geom_bar()
+```
+
+
+
+```{r}
+all_stars |>
+  group_by(Star_code)|>
+  count(PLANET_KEY)
+```
+```{r}
+all_stars|>
+  summarise(n=sum (!is.na(PLANET_KEY)),.by=Star_code) |>
+              ggplot(aes(x=n))+
+              geom_bar()
+```
+```{r}
+all_stars|>
+  summarise(n=n_distinct(PLANET_KEY),na.rm=TRUE,.by=Star_code) |>
+              ggplot(aes(x=n))+
+              geom_bar()
+```
+
+
+
 
