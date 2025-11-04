@@ -72,3 +72,20 @@ EuStockMarkets |>
   geom_line()
 ```
 
+
+```{r}
+EuStockMarkets |>
+  pivot_longer(everything())|>
+   slice_head(n=10) |>
+  knitr::kable()
+
+```
+
+
+```{r}
+EuStockMarkets |>
+  pivot_longer(DAX|SMI)|>
+   slice_head(n=10) |>
+  knitr::kable()
+```
+
