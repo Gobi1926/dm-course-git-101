@@ -89,3 +89,12 @@ EuStockMarkets |>
   knitr::kable()
 ```
 
+
+```{r}
+EuStockMarkets |>
+  select(!FTSE) |>
+  pivot_longer(!date)|>summarise(avg_stock=mean(value),.by = date) |>
+  slice_head(n=10) |>
+  knitr::kable()
+```
+
