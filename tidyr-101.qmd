@@ -144,3 +144,45 @@ dgroup|>
   pivot_wider(id_cols = cut, names_from=color,values_from = median_price)
 ```
 
+# Planets star
+
+
+```{r}
+library(dplyr)
+library(vroom)
+```
+
+
+```{r}
+
+#| message: false
+#| warning: false
+planets <- vroom(here("P11.csv"))
+stars <- vroom(here("sta11.csv"))
+```
+
+
+```{r}
+sun_to_earth <- 333000
+```
+ 
+## innerjoin
+
+In an inner join we keep only matches between the two data frames (according to the join_by variables)
+ 
+```{r}
+
+
+planet_star <- inner_join(planets,stars,by=join_by(Star_code))
+
+planet_star|>
+  mutate(mass_ratio=`Mass (Earth)`/sun_to_earth) |>
+  slice_max(mass_ratio) 
+
+
+
+
+
+
+```
+
